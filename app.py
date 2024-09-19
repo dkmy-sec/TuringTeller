@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 import csv
 import os
-from ai_detect import analyze_media, analyze_audio_file, analyze_video_file, process_media_file
+from ai_detect import analyze_media, analyze_audio_file, analyze_video_file, process_media_file, detect_ai_text
 
 
 app = Flask(__name__)
@@ -10,7 +10,6 @@ app.secret_key = 'your_secret_key_here'  # Required for session management
 
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 app.config['ALLOWED_EXTENSIONS'] = {'mp3', 'wav', 'mp4', 'mov'}
-app.config['MAX_CONTENT_LENGTH'] = 100
 
 
 # Defined a function to check Allowed File types
