@@ -1,16 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Result</title>
-</head>
-<body>
-    <h2>Test Completed</h2>
-    <p>Your responses have been recorded.</p>
-    <ul>
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h3 class="center-align">Your Responses</h3>
+    <ul class="collection">
         {% for response in responses %}
-            <li><strong>{{ response.question }}</strong>: {{ response.answer }}</li>
+        <li class="collection-item">
+            <strong>{{ response['question'] }}</strong>
+            <p>{{ response['answer'] }}</p>
+        </li>
         {% endfor %}
     </ul>
-</body>
-</html>
+    <div class="center-align">
+        <a href="{{ url_for('index') }}" class="btn">Restart Test</a>
+        <a href="{{ url_for('upload_media') }}" class="btn">Upload Media</a>
+    </div>
+</div>
+{% endblock %}

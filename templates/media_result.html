@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h3 class="center-align">Analysis Result</h3>
+    <div class="card-panel">
+        <p class="center-align">{{ result }}</p>
+    </div>
+    <div class="center-align">
+        <a href="{{ url_for('upload_media') }}" class="btn">Analyze Another File</a>
+    </div>
+</div>
+{% endblock %}

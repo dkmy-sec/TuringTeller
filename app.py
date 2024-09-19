@@ -1,9 +1,19 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+from werkzeug.utils import secure_filename
 import csv
 import os
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'  # Required for session management
+
+app.config['UPLOAD_FOLDER'] = 'uploads/'
+app.config['ALLOWED_EXTENSIONS'] = {'mp3', 'wav', 'mp4', 'mov'}
+
+# Defined a function to check Allowed File types
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+
 
 # Define the questions
 questions = [
@@ -18,6 +28,11 @@ questions = [
     {"id": "problem_solving_test", "text": "How would you solve the problem of climate change?"},
     {"id": "cultural_knowledge_test", "text": "What was the cultural impact of the 1960s civil rights movement?"}
 ]
+
+questions.append({
+    "id": "media_upload",
+    "text": "Please upload a short audio or video clip of you speaking."
+})
 
 # Home route to start the test
 @app.route('/')
@@ -34,11 +49,64 @@ def question(q_id):
     question = questions[q_id]
 
     if request.method == 'POST':
-        answer = request.form['answer']
+        if question['id'] == 'media_upload':
+            # Handle media file upload
+            if 'media_file' not in request.files:
+                flash('No file part')
+                return redirect(request.url)
+            file = request.files['media_file']
+            if file.filename == '':
+                flash('No selected file')
+                return redirect(request.url)
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                file.save(filepath)
+                # Process the media file
+                answer = process_media_file(filepath)
+            else:
+                flash('Invalid file type')
+                return redirect(request.url)
+        else:
+            answer = request.form['answer']
         session['responses'].append({'question': question['text'], 'answer': answer})
         return redirect(url_for('question', q_id=q_id + 1))
 
     return render_template('question.html', question=question, q_id=q_id)
+
+app.route('/upload_media', methods=['GET', 'POST'])
+def upload_media():
+    if request.method == 'POST':
+        # Check if a file is submitted
+        if 'media_file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['media_file']
+        # Check if a file is selected
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        # Validate file type
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
+            # Process the media file
+            result = process_media_file(filepath)
+            return render_template('media_result.html', result=result)
+    return render_template('upload_media.html')
+
+# Implement Media Processing Logic
+def process_media_file(filepath):
+    # Placeholder for media analysis logic
+    is_ai_generated = analyze_media(filepath)
+    return "AI-generated" if is_ai_generated else "Human-generated"
+
+# Analyze media file
+def analyze_media(filepath):
+    # Placeholder logic for media analysis
+    # Implement your AI detection here
+    return False  # Return True if AI-generated, False otherwise
 
 # Route to display the result and save to CSV
 @app.route('/result')
@@ -51,13 +119,14 @@ def result():
     file_exists = os.path.isfile(csv_file)
 
     # Save responses to CSV
-    with open(csv_file, 'a', newline='') as file:
+    with open(csv_file, 'a', newline='', encoding='utf-8') as file:
         writer = csv.DictWriter(file, fieldnames=['question', 'answer'])
         if not file_exists:
-            writer.writeheader()  # Write header only if file does not exist
+            writer.writeheader()
         writer.writerows(responses)
 
     return render_template('result.html', responses=responses)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

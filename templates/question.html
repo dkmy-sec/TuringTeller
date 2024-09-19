@@ -1,14 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Question</title>
-</head>
-<body>
-<h2>{{ question.text }}</h2>
-    <form method="POST">
-        <textarea name="answer" rows="4" cols="50" required></textarea><br><br>
-        <input type="submit" value="Next">
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h5>{{ question['text'] }}</h5>
+  <form action="{{ url_for('question', q_id=q_id) }}" method="post" {% if question['id'] == 'media_upload' %}enctype="multipart/form-data"{% endif %}>
+    {% if question['id'] == 'media_upload' %}
+    <div class="file-field input-field">
+        <div class="btn">
+            <span>Choose File</span>
+            <input type="file" name="media_file" required>
+        </div>
+        <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" placeholder="Upload your media file">
+        </div>
+    </div>
+    {% else %}
+    <div class="input-field">
+        <textarea id="answer" name="answer" class="materialize-textarea" required></textarea>
+        <label for="answer">Your Answer</label>
+    </div>
+    {% endif %}
+    <button class="btn waves-effect waves-light" type="submit">Next
+        <i class="material-icons right">arrow_forward</i>
+    </button>
     </form>
-</body>
-</html>
+</div>
+{% endblock %}

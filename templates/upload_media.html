@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h3 class="center-align">Upload a Video or Audio File</h3>
+    <form action="{{ url_for('upload_media') }}" method="post" enctype="multipart/form-data">
+        <div class="file-field input-field">
+            <div class="btn">
+                <span>Choose File</span>
+                <input type="file" name="media_file" required>
+            </div>
+            <div class="file-path-wrapper">
+                <input class="file-path validate" type="text" placeholder="Upload your media file">
+            </div>
+        </div>
+        <button class="btn waves-effect waves-light" type="submit">Submit
+            <i class="material-icons right">send</i>
+        </button>
+    </form>
+</div>
+{% endblock %}
