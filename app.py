@@ -16,23 +16,25 @@ def allowed_file(filename):
 
 
 # Define the questions
-questions = [
-    {"id": "contextual_understanding", "text": "Imagine someone says 'Oh, great!' after hearing bad news. What do you think they mean?"},
-    {"id": "creativity_test", "text": "Write a short poem about 'regret.'"},
-    {"id": "emotional_resonance", "text": "How do you feel when you think about someone you love who is no longer with you?"},
-    {"id": "humor_test", "text": "Why did the scarecrow win an award? Because he was outstanding in his field! Do you get the joke? (yes/no): "},
-    {"id": "intuition_test", "text": "Imagine you have to make a choice with no clear right answer. Do you follow your gut feeling, or do you prefer to analyze the situation logically?"},
-    {"id": "pattern_recognition_test", "text": "Here's an abstract image. What do you see? (Describe it in a few words)"},
-    {"id": "memory_test", "text": "Earlier, I mentioned a specific word. Do you remember what it was?"},
-    {"id": "ambiguity_test", "text": "What do you think is the meaning of life?"},
-    {"id": "problem_solving_test", "text": "How would you solve the problem of climate change?"},
-    {"id": "cultural_knowledge_test", "text": "What was the cultural impact of the 1960s civil rights movement?"}
-]
+questions = [{"id": "contextual_understanding",
+              "text": "Imagine someone says 'Oh, great!' after hearing bad news. What do you think they mean?"},
+             {"id": "creativity_test", "text": "Write a short poem about 'regret.'"}, {"id": "emotional_resonance",
+                                                                                       "text": "How do you feel when you think about someone you love who is no longer with you?"},
+             {"id": "humor_test",
+              "text": "Why did the scarecrow win an award? Because he was outstanding in his field! Do you get the joke? (yes/no): "},
+             {"id": "intuition_test",
+              "text": "Imagine you have to make a choice with no clear right answer. Do you follow your gut feeling, or do you prefer to analyze the situation logically?"},
+             {"id": "pattern_recognition_test",
+              "text": "Here's an abstract image. What do you see? (Describe it in a few words)"},
+             {"id": "memory_test", "text": "Earlier, I mentioned a specific word. Do you remember what it was?"},
+             {"id": "ambiguity_test", "text": "What do you think is the meaning of life?"},
+             {"id": "problem_solving_test", "text": "How would you solve the problem of climate change?"},
+             {"id": "cultural_knowledge_test",
+              "text": "What was the cultural impact of the 1960s civil rights movement?"}, {
+                 "id": "media_upload",
+                 "text": "Please upload a short audio or video clip of you speaking."
+             }]
 
-questions.append({
-    "id": "media_upload",
-    "text": "Please upload a short audio or video clip of you speaking."
-})
 
 # Home route to start the test
 @app.route('/')
