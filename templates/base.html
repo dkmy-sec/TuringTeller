@@ -11,12 +11,16 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="purple">
-        <div class="nav-wrapper container">
-            <a href="{{ url_for('index') }}" class="brand-logo">TuringTeller</a>
-        </div>
-    </nav>
+   <!-- Navigation Bar -->
+<nav class="purple">
+    <div class="nav-wrapper container">
+        <a href="{{ url_for('index') }}" class="brand-logo">TuringTeller</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="{{ url_for('index') }}">Questionnaire</a></li>
+            <li><a href="{{ url_for('upload_media') }}">Media Upload</a></li>
+        </ul>
+    </div>
+</nav>
 
     <!-- Content -->
     {% block content %}{% endblock %}
@@ -24,7 +28,7 @@
     <!-- Footer -->
     <footer class="page-footer purple">
         <div class="container">
-            © 2024 TuringTeller
+            © 2024 TuringTeller Made with 💖 by Kei Nova
         </div>
     </footer>
 

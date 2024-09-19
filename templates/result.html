@@ -10,6 +10,10 @@
         </li>
         {% endfor %}
     </ul>
+    <div class="card-panel">
+        <h5>AI Detection Result:</h5>
+        <p>{{ text_result }}</p>
+    </div>
     <div class="center-align">
         <a href="{{ url_for('index') }}" class="btn">Restart Test</a>
         <a href="{{ url_for('upload_media') }}" class="btn">Upload Media</a>
