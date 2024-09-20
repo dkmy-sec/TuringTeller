@@ -7,6 +7,7 @@ import requests
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+
 def detect_ai_text(text):
     try:
         response = openai.Completion.create(
