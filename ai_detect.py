@@ -5,9 +5,7 @@ import torch
 import requests
 
 
-
 openai.api_key = os.getenv("OPENAI_API_KEY")
-
 
 def detect_ai_text(text):
     try:
@@ -27,13 +25,22 @@ def detect_ai_text(text):
 
 def analyze_audio_file(filepath):
     try:
+        from speechbrain.inference import EncoderClassifier
+
         # Load the pre-trained anti-spoofing model
-        model = torch.hub.load('speechbrain/spoofing-ecapa-tdnn', 'spoofing_ecapa', source='github')
-        # Perform inference
-        score, prediction = model.verify_files(None, filepath)
-        # Define a threshold
-        threshold = 0.5
-        is_ai_generated = score >= threshold
+        model = EncoderClassifier.from_hparams(
+            source="MattyB95/AST-ASVspoof5-Synthetic-Voice-Detection",
+            savedir="pretrained_models/AST-ASVspoof5-Synthetic-Voice-Detection",
+            use_auth_token=os.getenv("HUGGINGFACE_HUB_TOKEN")
+        )
+
+        # Perform inference using the classify_file method
+        prediction = model.classify_file(filepath)
+        predicted_label = prediction[0]
+        print(f"Predicted label: {predicted_label}")
+
+        # Determine if the audio is AI-generated
+        is_ai_generated = predicted_label == 'spoof'
         return is_ai_generated
     except Exception as e:
         print(f"Error analyzing audio file: {e}")
