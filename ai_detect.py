@@ -6,7 +6,7 @@ import requests
 
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
-api_key = os.getenv("")
+deepware_api_key = os.getenv("DEEPWARE_API_KEY")
 
 
 def detect_ai_text(text):
@@ -31,8 +31,8 @@ def analyze_audio_file(filepath):
 
         # Load the pre-trained anti-spoofing model
         model = EncoderClassifier.from_hparams(
-            source="MattyB95/AST-ASVspoof5-Synthetic-Voice-Detection",
-            savedir="pretrained_models/AST-ASVspoof5-Synthetic-Voice-Detection",
+            source="bvallegc/wav2vec2_spoof_dection1-finetuned-spoofing-classifier",
+            savedir="pretrained_models/wav2vec2_spoof_dection1-finetuned-spoofing-classifier",
             use_auth_token=os.getenv("HUGGINGFACE_HUB_TOKEN")
         )
 
@@ -49,7 +49,7 @@ def analyze_audio_file(filepath):
         return False
 
 def analyze_video_file(filepath):
-    api_key = '6a632e78-f999-4f45-978a-b7ce1f622483'
+    api_key = deepware_api_key
     url = 'https://api.deepware.ai/analyze'
     files = {'file':open(filepath, 'rb')}
     headers = {'Authorization': f'Bearer {api_key}'}
