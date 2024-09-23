@@ -6,6 +6,7 @@ import requests
 
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
+api_key = os.getenv("")
 
 
 def detect_ai_text(text):
@@ -48,7 +49,7 @@ def analyze_audio_file(filepath):
         return False
 
 def analyze_video_file(filepath):
-    api_key = 'your_deepware_api_key'
+    api_key = '6a632e78-f999-4f45-978a-b7ce1f622483'
     url = 'https://api.deepware.ai/analyze'
     files = {'file':open(filepath, 'rb')}
     headers = {'Authorization': f'Bearer {api_key}'}
